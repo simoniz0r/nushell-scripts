@@ -1,4 +1,4 @@
-`sysfork` manages nushell background processes using transient systemd services.  Background processes are ran as services are started using `systemd-run` with the `--remain-after-exit` flag so status can be viewed after the process is finished.
+`sysfork` manages nushell background processes using transient systemd services.  Background processes are ran as services using `systemd-run` with the `--remain-after-exit` flag so status can be viewed after the process is finished.
 
 # Example Installation
 
