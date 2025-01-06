@@ -45,8 +45,7 @@ export def --wrapped "sysfork status" [
     # parse systemctl output into record if exit not 4
     if $status.exit_code != 4 {
         let output = try {
-            $status
-            | get stdout
+            $status.stdout
             | str replace '● ' 'Unit: '
             | str replace " - " "\nExecStart: "
             | lines
@@ -64,10 +63,10 @@ export def --wrapped "sysfork status" [
         let journal = journalctl --user-unit=($unit) --output=cat _SYSTEMD_INVOCATION_ID=($invocation) | complete
         # if verbose mode add journalctl and systemctl results to output
         if $verbose == true {
-            return ($output| merge ($journal | get stdout | wrap Output) |  merge ($journal | wrap Journalctl) | merge ($status | wrap Systemctl))
+            return ($output| merge ($journal.stdout | wrap Output) |  merge ($journal | wrap Journalctl) | merge ($status | wrap Systemctl))
         # else just output parsed results
         } else {
-            return ($output| merge ($journal | get stdout | wrap Output))
+            return ($output| merge ($journal.stdout | wrap Output))
         }
     # else get last 20 lines from journalctl and output systemctl without parsing
     } else {
