@@ -59,7 +59,7 @@ export def --wrapped "sysfork status" [
             $status | wrap Systemctl
         }
         # get journalctl output of given unit for current invocation
-        let invocation = try { $output.Invocation } catch { |e| return ("Failed to find Invocation ID for unit" | wrap Error) }
+        let invocation = try { $output.Invocation } catch { return ("Failed to find Invocation ID for unit" | wrap Error) }
         let journal = journalctl --user-unit=($unit) --output=cat _SYSTEMD_INVOCATION_ID=($invocation) | complete
         # if verbose mode add journalctl and systemctl results to output
         if $verbose == true {
