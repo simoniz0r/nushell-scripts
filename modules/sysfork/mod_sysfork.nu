@@ -43,7 +43,7 @@ export def --wrapped "sysfork status" [
     # get status of given unit
     let status = systemctl status --user --lines=0 ...$flags ($unit) | complete
     # parse systemctl output into record if exit not 4
-    if ($status | get exit_code) != 4 {
+    if $status.exit_code != 4 {
         let output = try {
             $status
             | get stdout
@@ -60,7 +60,7 @@ export def --wrapped "sysfork status" [
             $status | wrap Systemctl
         }
         # get journalctl output of given unit for current invocation
-        let invocation = try { $output | get Invocation } catch { |e| return ($e.msg | wrap Error) }
+        let invocation = try { $output.Invocation } catch { |e| return ("Failed to find Invocation ID for unit" | wrap Error) }
         let journal = journalctl --user-unit=($unit) --output=cat _SYSTEMD_INVOCATION_ID=($invocation) | complete
         # if verbose mode add journalctl and systemctl results to output
         if $verbose == true {
@@ -121,7 +121,7 @@ export def --wrapped sysfork [
     if $run != null and ($run | path type) == "file" {
         let sysrun = systemd-run --user --remain-after-exit --unit=($unit) --same-dir ...$flags ($nupath) ($run) | complete
         # return if exit not 0
-        if ($sysrun | get exit_code) != 0 {
+        if $sysrun.exit_code != 0 {
             return ($sysrun | wrap Systemctl)
         }
     # run command in background
