@@ -11,7 +11,7 @@ http get https://github.com/simoniz0r/nushell-scripts/raw/main/modules/sysfork/m
 Add to env.nu:
 
 ```
-'use $"($nu.default-config-dir)/mod_sysfork.nu" *' | save --append $"($nu.default-config-dir)/env.nu"
+'use $"($nu.default-config-dir)/mod_sysfork.nu" *' | prepend '' | save --append $"($nu.default-config-dir)/env.nu"
 ```
 
 # Fork a Command or Script Into Background
