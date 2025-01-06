@@ -1,5 +1,19 @@
 pastery uploads stdin to [pastery.net](https://pastery.net)
 
+# Example Installation
+
+Download to nushell config dir:
+
+```
+http get https://github.com/simoniz0r/nushell-scripts/raw/main/modules/pastery/mod_pastery.nu | save $"($nu.default-config-dir)/mod_pastery.nu"
+```
+
+Add to env.nu:
+
+```
+'use $"($nu.default-config-dir)/mod_pastery.nu" *' | prepend '' | save --append $"($nu.default-config-dir)/env.nu"
+```
+
 # Basic Usage
 
 ```
